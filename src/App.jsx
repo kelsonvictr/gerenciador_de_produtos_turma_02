@@ -7,6 +7,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<FornecedorList />} />
+        <Route path="/listar-fornecedores" element={<FornecedorList />} />
       </Routes>
     </BrowserRouter>
   )
