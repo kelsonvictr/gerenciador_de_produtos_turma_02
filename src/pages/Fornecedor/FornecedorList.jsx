@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../api'
 import { Link } from 'react-router-dom'
 import { FaPlus, FaEdit, FaTrash, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa'
+import Modal from 'react-modal'
 
 const FornecedorList = () => {
 
     const [fornecedores, setFornecedores] = useState([])
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState(null)
     const [modalAberto, setModalAberto] = useState(false)
+    const [modalSucessoAberto, setModalSucessoAberto] = useState(false)
 
     useEffect(() => {
         const buscarFornecedores = () => {
@@ -30,6 +32,20 @@ const FornecedorList = () => {
     const fecharModal = () => {
         setModalAberto(false)
         setFornecedorSelecionado(null)
+    }
+
+    const abrirModalSucesso = () => {
+        setModalSucessoAberto(true)
+        setTimeout(() => setModalSucessoAberto(false), 2000)
+    }
+
+    const removerFornecedor = () => {
+        axios.delete(`/fornecedores/${fornecedorSelecionado.id}`)
+        .then(() => {
+            setFornecedores(prevFornecedores => prevFornecedores.filter(fornecedor => fornecedor.id !== fornecedorSelecionado.id))
+            fecharModal()
+            abrirModalSucesso()
+        })
     }
 
 
@@ -70,6 +86,35 @@ const FornecedorList = () => {
             </tbody>
 
         </table>
+
+        <Modal
+            isOpen={modalAberto}
+            onRequestClose={fecharModal}
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <FaExclamationTriangle className="icon" />
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja excluir o fornecedor 
+                {fornecedorSelecionado && fornecedorSelecionado.nome}?
+            </p>
+            <div className="modalButtons">
+                <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
+                <button onClick={removerFornecedor} className="btn btn-danger">Excluir</button>
+            </div>
+        </Modal>
+
+        <Modal
+            isOpen={modalSucessoAberto}
+            onRequestClose={() => setModalSucessoAberto(false)}
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <div className="modalContent">
+                <FaCheckCircle className="icon successIcon" />
+                <h2>Fornecedor excluído com sucesso!</h2>
+            </div>
+        </Modal>
 
     </div>
   )
