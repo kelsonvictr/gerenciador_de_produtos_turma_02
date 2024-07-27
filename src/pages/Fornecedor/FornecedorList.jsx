@@ -93,14 +93,16 @@ const FornecedorList = () => {
             className="modal"
             overlayClassName="overlay"
         >
-            <FaExclamationTriangle className="icon" />
-            <h2>Confirmar Exclusão</h2>
-            <p>Tem certeza que deseja excluir o fornecedor 
-                {fornecedorSelecionado && fornecedorSelecionado.nome}?
-            </p>
-            <div className="modalButtons">
-                <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
-                <button onClick={removerFornecedor} className="btn btn-danger">Excluir</button>
+            <div className="modalContent">
+                <FaExclamationTriangle className="icon" />
+                <h2>Confirmar Exclusão</h2>
+                <p>Tem certeza que deseja excluir o fornecedor 
+                    {fornecedorSelecionado && fornecedorSelecionado.nome}?
+                </p>
+                <div className="modalButtons">
+                    <button onClick={fecharModal} className="btn btn-secondary">Cancelar</button>
+                    <button onClick={removerFornecedor} className="btn btn-danger">Excluir</button>
+                </div>
             </div>
         </Modal>
 
