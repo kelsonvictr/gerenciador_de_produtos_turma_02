@@ -2,7 +2,7 @@
   "fornecedores": [
     {
       "id": 1,
-      "nome": "Urbano LTDA",
+      "nome": "Urbano LTDA 1",
       "cnpj": "15.006.470/0001-30",
       "email": "sac@urbano.com.br"
     },
@@ -29,6 +29,12 @@
       "cnpj": "12.212.121/12__-__",
       "email": "kelson.victr@gmail.com",
       "id": 5
+    },
+    {
+      "nome": "dsds",
+      "cnpj": "22.112.___/____-__",
+      "email": "kelson.victr@gmail.com",
+      "id": 6
     }
   ],
   "produtos": [

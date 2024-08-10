@@ -130,11 +130,14 @@ const FornecedorForm = () => {
             className="modal"
             overlayClassName="overlay"
         >
-        <div className="modal-content">
+        <div className="modalContent">
             <FaCheckCircle className="icon successIcon" />
             <h2>{id ? 'Fornecedor atualizado com sucesso!' : 'Fornecedor adicionado com sucesso!'}</h2>
-            <button onClick={fecharModal} className="btn-success">Fechar</button>
-            {!id && <button onClick={adicionarOutroFornecedor} className="btn-secondary">Adicionar outro fornecedor</button>}
+
+            <div className="modalButtons">
+                <button onClick={fecharModal} className="btn-success">Fechar</button>
+                {!id && <button onClick={adicionarOutroFornecedor} className="btn-secondary">Adicionar outro fornecedor</button>}
+            </div>
         </div>
         </Modal>
 
