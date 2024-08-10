@@ -1,17 +1,53 @@
 import React from 'react'
 import { useState } from 'react'
-import { FaQuestionCircle } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
+import { FaQuestionCircle, FaCheckCircle } from 'react-icons/fa'
+import { useNavigate, useParams } from 'react-router-dom'
 import InputMask from 'react-input-mask'
+import axios from '../../api'
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root')
 
 const FornecedorForm = () => {
-
     const [fornecedor, setFornecedor] = useState({ nome: '', cnpj: '', email: ''})
     const [tooltipAberto, setTooltipAberto] = useState(false)
+    const [modalAberto, setModalAberto] = useState(false)
+    const navigate = useNavigate()
     const { id } = useParams()
+    
 
     const toggleTooltip = () => {
         setTooltipAberto(!tooltipAberto)
+    }
+
+    const handleSubmit = (event) => { 
+        event.preventDefault()
+
+        if (id) {
+            // Se tiver id, então é edição
+            axios.put(`/fornecedores/${id}`, fornecedor)
+            .then(() => {
+                setModalAberto(true)
+            })
+            .catch(error => console.error("Ocorreu um erro: ", error))
+        } else {
+            // Se não tem id, significa add um novo fornecedor
+            axios.post('/fornecedores', fornecedor)
+            .then(() => {
+                setModalAberto(true)
+            })
+            .catch(error => console.error("Ocorreu um erro: ", error))
+        }
+    }
+
+    const fecharModal = () => {
+        setModalAberto(false)
+        navigate("/listar-fornecedores")
+    }
+
+    const adicionarOutroFornecedor = () => {
+        setModalAberto(false)
+        setFornecedor({ nome: '', cnpj: '', email: '' })
     }
 
   return (
@@ -33,7 +69,7 @@ const FornecedorForm = () => {
             )}
         </h2>
 
-        <form className="fornecedor-form">
+        <form onSubmit={handleSubmit} className="fornecedor-form">
             <div className="form-group">
                 <label htmlFor="nome">Nome do fornecedor</label>
                 <input
@@ -76,6 +112,23 @@ const FornecedorForm = () => {
                 {id ? 'Editar' : 'Adicionar'}
             </button>
         </form>
+
+        <Modal
+            isOpen={modalAberto}
+            onRequestClose={fecharModal}
+            className="modal"
+            overlayClassName="overlay"
+        >
+        <div className="modal-content">
+            <FaCheckCircle className="icon successIcon" />
+            <h2>{id ? 'Fornecedor atualizado com sucesso!' : 'Fornecedor adicionado com sucesso!'}</h2>
+            <button onClick={fecharModal} className="btn-success">Fechar</button>
+            {!id && <button onClick={adicionarOutroFornecedor} className="btn-secondary">Adicionar outro fornecedor</button>}
+        </div>
+        </Modal>
+
+
+        
 
     </div>
   )

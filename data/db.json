@@ -1,10 +1,34 @@
 {
-    "fornecedores": [
-        {
-            "id": 1,
-            "nome": "Urbano LTDA",
-            "cnpj": "15.006.470/0001-30",
-            "email": "sac@urbano.com.br"
-        }
-    ]
+  "fornecedores": [
+    {
+      "id": 1,
+      "nome": "Urbano LTDA",
+      "cnpj": "15.006.470/0001-30",
+      "email": "sac@urbano.com.br"
+    },
+    {
+      "nome": "sdsd",
+      "cnpj": "11.111.111/1111-11",
+      "email": "kelson.victr@gmail.com",
+      "id": 2
+    },
+    {
+      "nome": "dsds",
+      "cnpj": "23.322.3__/____-__",
+      "email": "kelson.victr@gmail.com",
+      "id": 3
+    },
+    {
+      "nome": "Oe",
+      "cnpj": "11.222.112/____-__",
+      "email": "kelson.victr@gmail.com",
+      "id": 4
+    },
+    {
+      "nome": "ewewe",
+      "cnpj": "12.212.121/12__-__",
+      "email": "kelson.victr@gmail.com",
+      "id": 5
+    }
+  ]
 }
