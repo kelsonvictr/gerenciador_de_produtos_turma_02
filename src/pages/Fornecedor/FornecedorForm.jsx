@@ -40,6 +40,7 @@ const FornecedorForm = () => {
                     type="text"
                     className="form-control"
                     id="nome"
+                    name="nome"
                     value={fornecedor.nome}
                     onChange={e => setFornecedor({ ...fornecedor, nome: e.target.value })}
                     required
@@ -65,7 +66,15 @@ const FornecedorForm = () => {
                     id="email"
                     name="email"
                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Digite um email válido"
+                    value={fornecedor.email}
+                    onChange={e => setFornecedor({ ...fornecedor, email: e.target.value})}
+                    required
+                />
             </div>
+            <button type="submit" className="btn-success">
+                {id ? 'Editar' : 'Adicionar'}
+            </button>
         </form>
 
     </div>
