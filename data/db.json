@@ -51,6 +51,27 @@
       "descricao": "dssd",
       "quantidadeEstoque": "22",
       "id": 4
+    },
+    {
+      "nome": "dsds",
+      "preco": "12112",
+      "descricao": "dsasd",
+      "quantidadeEstoque": "22",
+      "id": 5
+    },
+    {
+      "nome": "dsds",
+      "preco": "221",
+      "descricao": "ddsds",
+      "quantidadeEstoque": "22",
+      "id": 6
+    },
+    {
+      "nome": "dsds",
+      "preco": "223",
+      "descricao": "ddssd",
+      "quantidadeEstoque": "233",
+      "id": 7
     }
   ]
 }
