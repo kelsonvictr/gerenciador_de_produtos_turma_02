@@ -1,5 +1,3 @@
-/* index.css */
-
 /* Reset */
 * {
   margin: 0;
@@ -17,14 +15,14 @@ body {
 }
 
 /* Container principal */
-.container {
+.form-container, .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background: linear-gradient(135deg, #ececec 0%, #ffffff 100%);
+  margin: 30px auto;
+  padding: 40px;
+  background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  flex: 1; /* Para ocupar o espaço disponível */
+  flex: 1;
 }
 
 /* Títulos */
@@ -32,28 +30,116 @@ h2 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Tooltip */
+.tooltip-icon {
+  font-size: 1rem;
+  margin-left: 10px;
+  color: #6c757d;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip-icon:hover {
+  color: #343a40;
+}
+
+.tooltip {
+  background-color: #aa965f;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  transform: translateY(5px);
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: max-content;
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #aa965f transparent;
+  z-index: 1001;
+}
+
+/* Grupo de formulário */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+/* Controle de formulário */
+.form-control {
+  width: 100%;
+  max-width: 800px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin: 0 auto;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
 }
 
 /* Botões */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.btn-success, .btn-secondary, .btn-primary, .btn-warning, .btn-danger {
+  display: inline-block;
   padding: 10px 20px;
-  border: none;
   border-radius: 5px;
   font-size: 1rem;
+  border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
 }
 
-.btn-primary {
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-secondary {
   background-color: #007bff;
   color: #fff;
 }
 
-.btn-primary:hover {
+.btn-secondary:hover {
   background-color: #0056b3;
+}
+
+.btn-primary {
+  background-color: #000000;
+  color: #fff;
+  text-decoration: none; /* Remove o sublinhado */
+}
+
+.btn-primary:hover {
+  background-color: #333333;
 }
 
 .btn-warning {
@@ -74,13 +160,12 @@ h2 {
   background-color: #c82333;
 }
 
-/* Ícones */
-.icon {
-  margin-right: 5px;
-}
-
-.icon-btn {
-  font-size: 1rem; /* Tamanho adequado dos ícones dentro dos botões */
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 5px 10px;
+  margin: 0 5px;
+  width: auto; /* Ajusta o tamanho para ser menor */
+  display: inline-block;
 }
 
 /* Tabela */
@@ -117,10 +202,7 @@ h2 {
   padding: 15px;
   font-size: 0.9rem;
   color: #495057;
-}
-
-.table tbody td button {
-  margin-right: 10px;
+  text-align: center; /* Alinha o conteúdo das células ao centro */
 }
 
 /* Layout Responsivo */
@@ -162,48 +244,105 @@ h2 {
 
 /* Navbar */
 .menu {
-  background-color: #6c757d;
-  padding: 20px;
-  text-align: center;
-}
-
-.menu .logo {
+  background: linear-gradient(135deg, #000000, #434343);
+  padding: 20px 20px;
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .menu .menu-links {
   display: flex;
-  justify-content: center;
   gap: 20px;
+  align-items: center;
+  height: 40px;
 }
 
 .menu a {
   color: #ffffff;
   text-decoration: none;
   padding: 10px 15px;
-  transition: background-color 0.3s ease;
+  transition: box-shadow 0.3s ease;
   border-radius: 5px;
 }
 
 .menu a:hover {
-  background-color: #495057;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
 .menu a.active {
-  background-color: #007bff;
+  background-color: #fd7e14;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+.menu .logo-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 20px;
+}
+
+.menu .logo-img {
+  height: 80px;
+  transform: translateY(10px);
+  object-fit: contain;
+}
+
+/* Avatar e Dropdown */
+.avatar-container {
+  position: relative;
+}
+
+.avatar-icon {
+  font-size: 2rem;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #333;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu a {
+  color: #ffffff;
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #495057;
 }
 
 @media (max-width: 768px) {
-  .menu .menu-links {
+  .menu {
     flex-direction: column;
+    align-items: flex-start;
+    height: auto;
   }
 
-  .menu a {
+  .menu .menu-links {
+    flex-direction: column;
     width: 100%;
-    text-align: center;
     margin-bottom: 10px;
+  }
+
+  .menu .logo-container {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -222,22 +361,26 @@ h2 {
 
 /* Modal */
 .modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
-  margin-right: -50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
+  z-index: 1050;
 }
 
 .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1040;
 }
 
 /* Conteúdo do Modal */
@@ -267,7 +410,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Botões do Modal */
 .modalButtons {
   display: flex;
   gap: 10px;
@@ -275,15 +417,96 @@ h2 {
   justify-content: center;
 }
 
-.btnSuccess, .btnSecondary {
+.btn-success, .btn-secondary {
   width: 45%;
 }
 
-.btnSecondary {
-  background-color: #6c757d;
-  color: #fff;
+/* Estilização da Página Inicial */
+.inicial-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 50px;
 }
 
-.btnSecondary:hover {
-  background-color: #5a6268;
+.stat-box {
+  flex: 1 1 30%;
+  height: 150px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-box h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.stat-box p {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.stat-box-blue {
+  background-color: #fd7e14;
+}
+
+.stat-box-green {
+  background-color: #28a745;
+}
+
+.stat-box-orange {
+  background-color: #fd7e14;
+}
+
+.stat-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 60px;
+}
+
+.chart {
+  width: 95%;
+  height: 300px;
+}
+
+.chart h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .inicial-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-box {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .charts-container {
+    width: 100%;
+  }
+
+  .chart {
+    width: 100%;
+  }
 }
