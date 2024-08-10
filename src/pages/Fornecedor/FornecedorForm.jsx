@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FaQuestionCircle, FaCheckCircle } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -14,6 +14,17 @@ const FornecedorForm = () => {
     const [modalAberto, setModalAberto] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
+
+    useEffect(() => {
+        if (id) {
+            // SE tiver id, é que precisa fazer o get (edição)
+            axios.get(`/fornecedores/${id}`)
+            .then(response => {
+                setFornecedor(response.data)
+            })
+            .catch(error => console.error("Ocorreu um erro: ", error))
+        }
+    }, [id])
     
 
     const toggleTooltip = () => {

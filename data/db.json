@@ -30,5 +30,21 @@
       "email": "kelson.victr@gmail.com",
       "id": 5
     }
+  ],
+  "produtos": [
+    {
+      "nome": "iphone",
+      "preco": "70000",
+      "descricao": "iphone bolado",
+      "quantidadeEstoque": "6",
+      "id": 2
+    },
+    {
+      "nome": "sas",
+      "preco": "32323",
+      "descricao": "dssd",
+      "quantidadeEstoque": "22",
+      "id": 4
+    }
   ]
 }
