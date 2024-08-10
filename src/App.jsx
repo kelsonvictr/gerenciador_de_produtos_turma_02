@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import FornecedorForm from './pages/Fornecedor/FornecedorForm'
 import ProdutoList from './pages/Produto/ProdutoList'
 import ProdutoForm from './pages/Produto/ProdutoForm'
+import Inicial from './pages/Inicial'
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
     <Navbar />
     <div className="container">
     <Routes>
-        <Route path="/" element={<FornecedorList />} />
+        <Route path="/" element={<Inicial />} />
         <Route path="/listar-fornecedores" element={<FornecedorList />} />
         <Route path="/add-fornecedores" element={<FornecedorForm />} />
         <Route path="/edit-fornecedores/:id" element={<FornecedorForm />} />
