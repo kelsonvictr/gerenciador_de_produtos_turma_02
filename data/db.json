@@ -73,5 +73,20 @@
       "quantidadeEstoque": "233",
       "id": 7
     }
+  ],
+  "clientes": [
+    {
+      "id": 2,
+      "nome": "Kelson",
+      "cpf": "123123",
+      "email": "zezin@gmail.com",
+      "cep": "58079000",
+      "rua": "Rua Josefa Miranda Freire",
+      "numero": "105",
+      "bairro": "Jardim Oceania",
+      "cidade": "João Pessoa",
+      "estado": "Paraíba",
+      "pais": "Brasil"
+    }
   ]
 }
