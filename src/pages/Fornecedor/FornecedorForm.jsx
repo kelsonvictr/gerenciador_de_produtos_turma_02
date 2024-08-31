@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { FaQuestionCircle, FaCheckCircle } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import InputMask from 'react-input-mask'
 import axios from '../../api'
+import InputMask from 'react-input-mask'
 import Modal from 'react-modal'
+import { FaCheckCircle, FaExclamationTriangle, FaQuestionCircle } from 'react-icons/fa'
 
 Modal.setAppElement('#root')
 
 const FornecedorForm = () => {
-    const [fornecedor, setFornecedor] = useState({ 
-        nome: '', 
-        cnpj: '', 
+    const [fornecedor, setFornecedor] = useState({
+        nome: '',
+        cnpj: '',
         email: '',
-        tipoFornecedor: 'COMUM',
+        tipoFornecedor: 'COMUM', // Valor padrão
         endereco: {
             cep: '',
             logradouro: '',
@@ -25,45 +24,51 @@ const FornecedorForm = () => {
             pais: 'Brasil'
         }
     })
-    const [tooltipAberto, setTooltipAberto] = useState(false)
     const [modalAberto, setModalAberto] = useState(false)
+    const [modalErroAberto, setModalErroAberto] = useState(false)
+    const [mensagensErro, setMensagensErro] = useState([])
+    const [tooltipAberto, setTooltipAberto] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
 
     useEffect(() => {
         if (id) {
-            // SE tiver id, é que precisa fazer o get (edição)
             axios.get(`/fornecedores/${id}`)
-            .then(response => {
-                setFornecedor(response.data)
-            })
-            .catch(error => console.error("Ocorreu um erro: ", error))
+                .then(response => {
+                    setFornecedor(response.data)
+                })
+                .catch(error => console.error("Ocorreu um erro: ", error))
         }
     }, [id])
-    
 
-    const toggleTooltip = () => {
-        setTooltipAberto(!tooltipAberto)
-    }
-
-    const handleSubmit = (event) => { 
+    const handleSubmit = (event) => {
         event.preventDefault()
+        setMensagensErro([]) // Limpa erros anteriores
 
-        if (id) {
-            // Se tiver id, então é edição
-            axios.put(`/fornecedores/${id}`, fornecedor)
-            .then(() => {
-                setModalAberto(true)
-            })
-            .catch(error => console.error("Ocorreu um erro: ", error))
-        } else {
-            // Se não tem id, significa add um novo fornecedor
-            axios.post('/fornecedores', fornecedor)
-            .then(() => {
-                setModalAberto(true)
-            })
-            .catch(error => console.error("Ocorreu um erro: ", error))
+        // Remover pontuações do CNPJ
+        const fornecedorData = {
+            ...fornecedor,
+            cnpj: fornecedor.cnpj.replace(/[^\d]/g, '')
         }
+
+        const request = id 
+            ? axios.put(`/fornecedores/${id}`, fornecedorData)
+            : axios.post('/fornecedores', fornecedorData)
+
+        request.then(() => {
+            setModalAberto(true)
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 500) {
+                setMensagensErro(["Erro no sistema, entre em contato com o administrador"])
+                setModalErroAberto(true)
+            } else if (error.response && error.response.data) {
+                setMensagensErro(Object.values(error.response.data))
+                setModalErroAberto(true)
+            } else {
+                console.error("Ocorreu um erro: ", error)
+            }
+        })
     }
 
     const fecharModal = () => {
@@ -71,11 +76,15 @@ const FornecedorForm = () => {
         navigate("/listar-fornecedores")
     }
 
+    const fecharModalErro = () => {
+        setModalErroAberto(false)
+    }
+
     const adicionarOutroFornecedor = () => {
         setModalAberto(false)
-        setFornecedor({ 
-            nome: '', 
-            cnpj: '', 
+        setFornecedor({
+            nome: '',
+            cnpj: '',
             email: '',
             tipoFornecedor: 'COMUM',
             endereco: {
@@ -91,66 +100,96 @@ const FornecedorForm = () => {
         })
     }
 
-  return (
-    <div className="form-container">
-        <h2 style={{ position: 'relative '}}>
-            {id ? 'Editar Fornecedor' : 'Adicionar Fornecedor'}
-            {' '}
-            <FaQuestionCircle
-                className="tooltip-icon"
-                onClick={toggleTooltip}
-            />
-            {tooltipAberto && (
-                <div className="tooltip">
-                    {id ? 'Nesta tela, você pode editar as informações de um fornecedor existente.'
-                    :
-                    'Nesta tela, você pode adicionar um novo fornecedor ao sistema.'
+    const toggleTooltip = () => {
+        setTooltipAberto(!tooltipAberto)
+    }
+
+    const handleCepChange = (e) => {
+        const cep = e.target.value.replace(/\D/g, '')
+        setFornecedor({ 
+            ...fornecedor, 
+            endereco: { ...fornecedor.endereco, cep: e.target.value } 
+        })
+
+        if (cep.length === 8) {
+            axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => {
+                    if (!response.data.erro) {
+                        setFornecedor(prevFornecedor => ({
+                            ...prevFornecedor,
+                            endereco: {
+                                ...prevFornecedor.endereco,
+                                logradouro: response.data.logradouro,
+                                bairro: response.data.bairro,
+                                cidade: response.data.localidade,
+                                estado: response.data.uf
+                            }
+                        }))
                     }
+                })
+                .catch(error => console.error("Erro ao buscar CEP: ", error))
+        }
+    }
+
+    return (
+        <div className="form-container">
+            <h2 style={{ position: 'relative ' }}>
+                {id ? 'Editar Fornecedor' : 'Adicionar Fornecedor'}
+                {' '}
+                <FaQuestionCircle
+                    className="tooltip-icon"
+                    onClick={toggleTooltip}
+                />
+                {tooltipAberto && (
+                    <div className="tooltip">
+                        {id ? 'Nesta tela, você pode editar as informações de um fornecedor existente.'
+                            :
+                            'Nesta tela, você pode adicionar um novo fornecedor ao sistema.'
+                        }
+                    </div>
+                )}
+            </h2>
+
+            <form onSubmit={handleSubmit} className="fornecedor-form">
+                <div className="form-group">
+                    <label htmlFor="nome">Nome do fornecedor</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="nome"
+                        name="nome"
+                        value={fornecedor.nome}
+                        onChange={e => setFornecedor({ ...fornecedor, nome: e.target.value })}
+                        required
+                    />
                 </div>
-            )}
-        </h2>
-
-        <form onSubmit={handleSubmit} className="fornecedor-form">
-            <div className="form-group">
-                <label htmlFor="nome">Nome do fornecedor</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="nome"
-                    name="nome"
-                    value={fornecedor.nome}
-                    onChange={e => setFornecedor({ ...fornecedor, nome: e.target.value })}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="cnpj">CNPJ do fornecedor</label>
-                <InputMask
-                    mask="99.999.999/9999-99"
-                    className="form-control"
-                    id="cnpj"
-                    name="cnpj"
-                    value={fornecedor.cnpj}
-                    onChange={e => setFornecedor({ ...fornecedor, cnpj: e.target.value})}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="email">Email do fornecedor</label>
-                <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                    title="Digite um email válido"
-                    value={fornecedor.email}
-                    onChange={e => setFornecedor({ ...fornecedor, email: e.target.value})}
-                    required
-                />
-            </div>
-
-            <div className="form-group">
+                <div className="form-group">
+                    <label htmlFor="cnpj">CNPJ do fornecedor</label>
+                    <InputMask
+                        mask="99.999.999/9999-99"
+                        className="form-control"
+                        id="cnpj"
+                        name="cnpj"
+                        value={fornecedor.cnpj}
+                        onChange={e => setFornecedor({ ...fornecedor, cnpj: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="email">Email do fornecedor</label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        name="email"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        title="Digite um email válido"
+                        value={fornecedor.email}
+                        onChange={e => setFornecedor({ ...fornecedor, email: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="form-group">
                     <label htmlFor="tipoFornecedor">Tipo de Fornecedor</label>
                     <select
                         className="form-control"
@@ -282,33 +321,49 @@ const FornecedorForm = () => {
                         required
                     />
                 </div>
-            <button type="submit" className="btn-success">
-                {id ? 'Editar' : 'Adicionar'}
-            </button>
-        </form>
 
-        <Modal
-            isOpen={modalAberto}
-            onRequestClose={fecharModal}
-            className="modal"
-            overlayClassName="overlay"
-        >
-        <div className="modalContent">
-            <FaCheckCircle className="icon successIcon" />
-            <h2>{id ? 'Fornecedor atualizado com sucesso!' : 'Fornecedor adicionado com sucesso!'}</h2>
+                <button type="submit" className="btn-success">
+                    {id ? 'Editar' : 'Adicionar'}
+                </button>
+            </form>
 
-            <div className="modalButtons">
-                <button onClick={fecharModal} className="btn-success">Fechar</button>
-                {!id && <button onClick={adicionarOutroFornecedor} className="btn-secondary">Adicionar outro fornecedor</button>}
-            </div>
+            {/* Modal de sucesso */}
+            <Modal
+                isOpen={modalAberto}
+                onRequestClose={fecharModal}
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <div className="modalContent">
+                    <FaCheckCircle className="icon successIcon" />
+                    <h2>{id ? 'Fornecedor atualizado com sucesso!' : 'Fornecedor adicionado com sucesso!'}</h2>
+
+                    <div className="modalButtons">
+                        <button onClick={fecharModal} className="btn-success">Fechar</button>
+                        {!id && <button onClick={adicionarOutroFornecedor} className="btn-secondary">Adicionar outro fornecedor</button>}
+                    </div>
+                </div>
+            </Modal>
+
+            {/* Modal de erro */}
+            <Modal
+                isOpen={modalErroAberto}
+                onRequestClose={fecharModalErro}
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <div className="modalContent">
+                    <FaExclamationTriangle className="icon errorIcon" />
+                    <h2>Ocorreu um erro:</h2>
+                    {mensagensErro.map((mensagem, index) => (
+                        <h4 key={index}>{mensagem}</h4>
+                    ))}
+                    <br/>
+                    <button onClick={fecharModalErro} className="btn-secondary">Fechar</button>
+                </div>
+            </Modal>
         </div>
-        </Modal>
-
-
-        
-
-    </div>
-  )
+    )
 }
 
 export default FornecedorForm
