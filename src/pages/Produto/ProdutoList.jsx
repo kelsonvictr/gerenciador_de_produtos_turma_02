@@ -9,7 +9,7 @@ const ProdutoList = () => {
     const [modalAberto, setModalAberto] = useState(false)
     const [modalSucessoAberto, setModalSucessoAberto] = useState(false)
     const [produtoSelecionado, setProdutoSelecionado] = useState(null)
-    const [tooltipAberto, setTooltipAberto] = useState(false) // Estado para controlar o tooltip
+    const [tooltipAberto, setTooltipAberto] = useState(false)
 
     useEffect(() => {
         const buscarProdutos = () => {
@@ -81,6 +81,7 @@ const ProdutoList = () => {
                         <th>Preço:</th>
                         <th>Descrição:</th>
                         <th>Quantidade em Estoque:</th>
+                        <th>Fornecedor:</th>
                         <th>Ações:</th>
                     </tr>
                 </thead>
@@ -88,9 +89,10 @@ const ProdutoList = () => {
                     {produtos.map(produto => (
                         <tr key={produto.id}>
                             <td>{produto.nome}</td>
-                            <td>{produto.preco}</td>
+                            <td>{parseFloat(produto.preco).toFixed(2)}</td>
                             <td>{produto.descricao}</td>
                             <td>{produto.quantidadeEstoque}</td>
+                            <td>{produto.fornecedor ? produto.fornecedor.nome : 'Não informado'}</td>
                             <td>
                                 <Link to={`/edit-produtos/${produto.id}`} className="btn btn-sm btn-warning">
                                     <FaEdit className="icon icon-btn" /> Editar

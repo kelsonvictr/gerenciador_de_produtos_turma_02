@@ -38,6 +38,24 @@ const FornecedorForm = () => {
                     setFornecedor(response.data)
                 })
                 .catch(error => console.error("Ocorreu um erro: ", error))
+        } else {
+            // Se não houver ID, redefinir o estado do fornecedor para adicionar um novo
+            setFornecedor({
+                nome: '',
+                cnpj: '',
+                email: '',
+                tipoFornecedor: 'COMUM',
+                endereco: {
+                    cep: '',
+                    logradouro: '',
+                    numero: '',
+                    complemento: '',
+                    bairro: '',
+                    cidade: '',
+                    estado: '',
+                    pais: 'Brasil'
+                }
+            })
         }
     }, [id])
 

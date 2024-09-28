@@ -1,0 +1,128 @@
+/* Container do Formulário */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .login-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 40px 50px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Título */
+  .title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Mensagem de Erro */
+  .error-message {
+    color: #ff4c4c;
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+  
+  /* Formulário */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Grupo de Input */
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+    display: block;
+    font-size: 1rem;
+  }
+  
+  /* Input do Formulário */
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #0061ff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 97, 255, 0.4);
+  }
+  
+  /* Botão de Login */
+  .btn-success {
+    width: 100%;
+    padding: 12px 0;
+    background: #28a745;
+    color: #ffffff;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+  
+  /* Link de Registro */
+  .register-link {
+    margin-top: 20px;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .register-link a {
+    color: #0061ff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .register-link a:hover {
+    color: #0053cc;
+  }
+  
+  /* Layout Responsivo */
+  @media (max-width: 768px) {
+    .login-card {
+      padding: 30px 20px;
+    }
+  
+    .title {
+      font-size: 1.8rem;
+    }
+  
+    .btn-success {
+      font-size: 1rem;
+    }
+  }
+  

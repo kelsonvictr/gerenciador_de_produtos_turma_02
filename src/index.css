@@ -295,12 +295,29 @@ h2 {
 /* Avatar e Dropdown */
 .avatar-container {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.avatar-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
 .avatar-icon {
   font-size: 2rem;
   color: #ffffff;
-  cursor: pointer;
+}
+
+.logged-user-email {
+  color: #ffffff;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .dropdown-menu {
